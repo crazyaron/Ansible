@@ -1,0 +1,8 @@
+---
+- hosts: all
+  user: root
+  become: True
+  gather_facts: no
+  tasks: 
+  - name: displaying message
+    debug: msg="my name is Sandy"
