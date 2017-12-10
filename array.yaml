@@ -1,0 +1,39 @@
+---
+- hosts: all
+  user: root
+  become: true
+  gather_facts: false
+  vars:
+   name: "Sandy"
+   Age: 30
+   epic: true
+   numbers:
+    - 10
+    - 20
+    - 30
+    - 40
+   Users: 
+     Ramesh:
+       name: "Sandy"
+       age: "30"
+       salary: "xxx"
+     Suresh:
+       name: "Babu"
+       age: "28"
+       salary: "yyy"
+  tasks:
+    - name: looping array element
+      debug: msg="Number is {{item}}"
+      when: item > 10
+      with_items: "{{numbers}}"
+    - name: Installing packages
+      yum: name={{item}} state=present
+      with_items: 
+       - "httpd"
+       - "ntp"
+       - "openssh"
+       - "samba"
+       - "nfs-utils"
+    - name: using Hash
+      debug: msg="Users details are {{ item.key }} {{ item.value.age}} {{item.value.salary}}"
+      with_dict: "{{ Users }}" 

@@ -1,0 +1,27 @@
+---
+- hosts: all
+  user: root
+  become: true
+  gather_facts: true
+  vars: 
+    myname: "Hello"
+    filename: "newtestfile"
+    age: 32
+    epic: true
+    os: "redhat"
+  tasks: 
+   - name: Displaying name
+     debug: msg="my name is {{myname}}"
+   - name: Create a file
+     file: path="/tmp/{{ filename }}"  state=touch
+   - name: Display the age
+     debug: msg="my age is {{age}}"
+   - name: Displaying msg only true
+     debug: msg="I am {{epic}}"
+     when: epic
+   - name: Display based on OS
+     debug: msg="I am from RedHat {{os}}"
+     when: os=="redhat"
+   - name: Display based on OS
+     debug: msg="I am from Ubuntu {{os}}"
+     when: os=="ubuntu"
