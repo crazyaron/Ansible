@@ -3,11 +3,21 @@
   user: root
   become: true
   gather_facts: false
+  vars:
+    port: 8080
   tasks: 
   - name: Install http
     yum: name=httpd state=present
   - name: copy index file
     copy: src=/var/www/html/index.html dest=/var/www/html/index.html owner=root group=root mode=0755
+
+  - name: Modify the http port from 80 to 8080
+    template: src=/etc/ansible/Ansible/httpd.j2 dest=/etc/httpd/conf/httpd.conf
+    notify: restart apache
+
   - name: starting service
     service: name=httpd enabled=true state=started
 
+  handlers: 
+  - name: restart apache
+    service: name=httpd state=restarted

@@ -1,0 +1,15 @@
+---
+- hosts: all
+  user: root
+  become: true
+  gather_facts: true
+  vars: 
+   myname: "Sandy"
+   
+  tasks: 
+   - name: Display name
+     template: src=/etc/ansible/Ansible/test.j2 dest=/tmp/test
+   - name: Modify client hosts entry
+     template: src=/etc/ansible/Ansible/host.j2 dest=/etc/hosts
+  
+
