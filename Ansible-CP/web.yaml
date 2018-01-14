@@ -1,0 +1,12 @@
+---
+- hosts: apps
+  user: root
+  become: True
+  gather_facts: no
+  tasks: 
+  - name: Install http package 
+    yum: name=httpd state=present  
+  - name: copy index file
+    copy: src=/root/index.html dest=/var/www/html/index.html owner=root group=root mode=0755
+  - service:
+     name=httpd enabled=True state=started    

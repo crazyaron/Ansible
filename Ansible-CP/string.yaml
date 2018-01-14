@@ -1,0 +1,32 @@
+---
+- hosts: all
+  user: root
+  become: True	
+  gather_facts: True
+  vars:
+    myname: "Chinu"
+    filename: "test.txt"
+    age: 32
+    epic: false
+  tasks:
+  - name: display my name
+    debug: msg="myname name is {{myname}}"
+  - name: Create a file
+    file: path="/root/{{filename}}" state=touch
+  - name: display age
+    debug: msg="my name is {{myname}} and my age is {{age}}"
+  - name: display msg only if true
+    debug: msg="I am {{epic}}"
+    when: epic
+  - name: display based on OS
+    debug: msg="I am from Redhat"
+    when: ansible_os_family=="RedHat"
+  - name: display based on OS
+    debug: msg="I am from Ubantu"
+    when: ansible_os_family=="Debian"
+  - name: install httpd
+    yum: name=httpd state=present
+    when: ansible_os_family=="RedHat"
+  - name: isntall apache on Ubantu
+    apt: name=apache2 state=present
+    when: ansible_os_family=="Debian"

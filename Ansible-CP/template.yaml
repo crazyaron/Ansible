@@ -1,0 +1,21 @@
+---
+- hosts: all
+  user: root
+  become: True	
+  gather_facts: true
+  vars:
+    myname: "Chinu"
+    port: 80
+  tasks:
+    - name: testing template test
+      template: src=/root/test.j2 dest=/tmp/test
+    - name: Modify agent's host entry
+      template: src=/root/test2.j2 dest=/etc/hosts
+    - name: Modify http port from 80 to 8080
+      template: src=/root/httpd.j2 dest=/etc/httpd/conf/httpd.conf
+      notify: restart apache
+    - name: start apache
+      service: name=httpd enabled=yes state=started
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted   	 

@@ -1,0 +1,10 @@
+---
+  - name: Install http package
+    yum: name=httpd state=present
+  - name: copy index file
+    copy: src=index.html dest=/var/www/html/index.html owner=root group=root mode=0755
+  - name: Modify http port from 80 to 8080
+    template: src=httpd.j2 dest=/etc/httpd/conf/httpd.conf
+    notify: restart apache
+  - name: start apache
+    service: name=httpd enabled=yes state=started

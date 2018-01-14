@@ -1,0 +1,7 @@
+---
+- hosts: apps
+  user: root
+  become: True
+  gather_facts: no
+  roles:
+    - apache

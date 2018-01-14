@@ -1,0 +1,8 @@
+---
+ - name: Backup ntp.conf
+   command: mv /etc/ntp.conf /etc/ntp.conf.bkp
+ - name: copy ntp.conf file to manage node
+   copy: src=ntp.conf dest=/etc/ntp.conf owner=root group=root mode=0755
+ - name: Replace NTP servers as per site
+   template: src=ntp.conf.j2 dest=/etc/ntp.conf
+   notify: restart ntp
